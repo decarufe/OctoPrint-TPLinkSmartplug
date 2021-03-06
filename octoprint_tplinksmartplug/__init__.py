@@ -1001,6 +1001,8 @@ class tplinksmartplugPlugin(octoprint.plugin.SettingsPlugin,
 		self._plugin_manager.send_plugin_message(self._identifier, chk)
 
 	def processGCODE(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
+		self._tplinksmartplug_logger.debug("Pocessing command %s." % cmd)
+
 		if self.powerOffWhenIdle and not (gcode in self._idleIgnoreCommandsArray):
 			self._waitForHeaters = False
 			self._reset_idle_timer()
