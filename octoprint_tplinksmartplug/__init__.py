@@ -990,6 +990,7 @@ class tplinksmartplugPlugin(octoprint.plugin.SettingsPlugin,
 	##~~ Gcode processing hook
 
 	def gcode_turn_off(self, plug):
+		self._wait_for_heaters()
 		if plug["warnPrinting"] and self._printer.is_printing():
 			self._tplinksmartplug_logger.debug("Not powering off %s because printer is printing." % plug["label"])
 		else:
@@ -1006,10 +1007,6 @@ class tplinksmartplugPlugin(octoprint.plugin.SettingsPlugin,
 		if self.powerOffWhenIdle and not (gcode in self._idleIgnoreCommandsArray):
 			self._waitForHeaters = False
 			self._reset_idle_timer()
-
-		## Filter line number and checksum
-		cmd = re.sub(r'^N\d+\s?', '', cmd)
-		cmd = re.sub(r'\*\d+$', '', cmd)
 
 		if gcode not in ["M80", "M81"]:
 			return
