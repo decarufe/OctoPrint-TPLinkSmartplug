@@ -1005,6 +1005,10 @@ class tplinksmartplugPlugin(octoprint.plugin.SettingsPlugin,
 			self._waitForHeaters = False
 			self._reset_idle_timer()
 
+		## Filter line number and checksum
+		cmd = re.sub(r'^N\d+\s?', '', cmd)
+		cmd = re.sub(r'\*\d+$', '', cmd)
+
 		if gcode not in ["M80", "M81"]:
 			return
 
